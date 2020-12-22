@@ -90,10 +90,11 @@ public class ExampleJobService extends JobService {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void run() {
-               //for(int i=0; i  < 10;  i++){
+               for(int i=0; i  < 10;  i++){
                     try{
                         Log.d(TAG,"Service Running...");
                         getCurrentLocation();
+                        //getting locations
                         //geocding latlong latlng1
                         //latlng
                         //haversine method(latlng1 latlng2)
@@ -113,7 +114,7 @@ public class ExampleJobService extends JobService {
                     catch (Exception e){
                         e.printStackTrace();
                     }
-                //}
+                }
                 Log.d(TAG,"Job Finished");
                 jobFinished(params,false);
 

@@ -224,6 +224,7 @@ public class ExampleJobService extends JobService {
         stopForeground(true);
         stopSelf();
         //countDownTimer.cancel();
+        //dfes
 
     }
 

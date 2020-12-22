@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -172,6 +173,15 @@ public class ExampleJobService extends JobService {
         // 60000 = 60 seconds
 
         // Try Increasing countDownInterval
+        // current time
+        // hours, min, seconds
+        // 4:20 = 20 mins + 20+10 =
+
+        // while (currenttime.getmin+100)
+
+        Date currentTime = Calendar.getInstance().getTime();
+        int mins=currentTime.getMinutes();
+        currentTime.setMinutes(10);
         countDownTimer = new CountDownTimer( 60*10*1000 , 1000) {
             public void onTick(long millisUntilFinished)
             {

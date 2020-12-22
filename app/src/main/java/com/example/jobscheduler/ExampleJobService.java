@@ -225,6 +225,7 @@ public class ExampleJobService extends JobService {
         stopSelf();
         //countDownTimer.cancel();
         //dfes
+        //dfjhdj
 
     }
 

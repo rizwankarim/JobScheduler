@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void StartJob(View v){
         ComponentName componentName= new ComponentName(this, ExampleJobService.class);
         JobInfo info= new JobInfo.Builder(123,componentName)
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void StopJob(View v){
         JobScheduler scheduler= (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
         scheduler.cancel(123);

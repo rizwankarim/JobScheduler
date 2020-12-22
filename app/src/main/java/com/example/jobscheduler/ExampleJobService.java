@@ -86,7 +86,7 @@ public class ExampleJobService extends JobService {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
 
-        // convert to radians
+        // convert to radians comment
         lat1 = Math.toRadians(lat1);
         lat2 = Math.toRadians(lat2);
 

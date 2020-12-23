@@ -78,7 +78,7 @@ public class MyIntentService extends JobService {
         }
     };
 
-    private place getGeocodingDetails(double longitude, double latitude)
+    private place getGeocodingDetails(double latitude, double longitude)
     {
         Geocoder geocoder;
         place completeDetails = null;
@@ -140,13 +140,14 @@ public class MyIntentService extends JobService {
     private void startRandomNumberGenerator(){
         while (mIsRandomGeneratorOn){
             try{
-                Thread.sleep(1000);
                 if(mIsRandomGeneratorOn){
-                   // mRandomNumber =new Random().nextInt(MAX)+MIN;
-                   // Log.i(getString(R.string.service_demo_tag),"Thread id: "+Thread.currentThread().getId()+", Random Number: "+ mRandomNumber);
+                    // mRandomNumber =new Random().nextInt(MAX)+MIN;
+                    // Log.i(getString(R.string.service_demo_tag),"Thread id: "+Thread.currentThread().getId()+", Random Number: "+ mRandomNumber);
                     getCurrentLocation();
 
                 }
+                Thread.sleep(60000);
+
             }catch (InterruptedException e){
                 Log.i(TAG,"Thread Interrupted");
             }
@@ -155,7 +156,7 @@ public class MyIntentService extends JobService {
     private void getCurrentLocation() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(3000);
+        locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;

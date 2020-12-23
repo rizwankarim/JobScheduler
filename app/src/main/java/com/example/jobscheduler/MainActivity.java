@@ -51,9 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         JobInfo jobInfo = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             jobInfo = new JobInfo.Builder(101,componentName)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                     .setPeriodic(15*60*1000)
-                    .setRequiresCharging(false)
                     .setPersisted(true)
                     .build();
         }

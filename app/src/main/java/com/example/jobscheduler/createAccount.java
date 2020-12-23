@@ -64,7 +64,7 @@ public class createAccount extends AppCompatActivity {
                 }
                 else
                     {
-                        progressDialog = ProgressDialog.show(com.masterandroid.backgroundservice.createAccount.this
+                        progressDialog = ProgressDialog.show(createAccount.this
                                 , "","Please Wait...", true);
                         mAuth.createUserWithEmailAndPassword(user_email, user_password)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -73,13 +73,13 @@ public class createAccount extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         if (task.isSuccessful())
                                         {
-                                            Toast.makeText(com.masterandroid.backgroundservice.createAccount.this, "Account Created !",
+                                            Toast.makeText(createAccount.this, "Account Created !",
                                                 Toast.LENGTH_SHORT).show();
                                             // Sign in success, update UI with the signed-in user's information
                                         } else {
 
                                             // If sign in fails, display a message to the user.
-                                            Toast.makeText(com.masterandroid.backgroundservice.createAccount.this, "Authentication failed.",
+                                            Toast.makeText(createAccount.this, "Authentication failed.",
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     }
@@ -93,7 +93,7 @@ public class createAccount extends AppCompatActivity {
         gotoSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signIn=new Intent(com.masterandroid.backgroundservice.createAccount.this, com.masterandroid.backgroundservice.login.class);
+                Intent signIn=new Intent(createAccount.this, login.class);
                 finish();
                 startActivity(signIn);
             }

@@ -29,8 +29,8 @@ public class RequestHandler {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             //commit
             //Configuring connection properties
-            conn.setReadTimeout(3000);
-            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(15000);
+            conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);

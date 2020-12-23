@@ -10,8 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.masterandroid.backgroundservice.R;
-import com.masterandroid.backgroundservice.place;
+
+import com.example.jobscheduler.R;
+import com.example.jobscheduler.place;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

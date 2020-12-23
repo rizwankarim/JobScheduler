@@ -6,6 +6,7 @@ import android.app.job.JobService;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
@@ -19,10 +20,14 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,51 +37,12 @@ public class MyIntentService extends JobService {
 
     private int mRandomNumber;
     private boolean mIsRandomGeneratorOn;
-
+    private static final int CODE_GET_REQUEST = 1024;
+    private static final int CODE_POST_REQUEST = 1025;
     private final int MIN=0;
     private final int MAX=100;
     place details;
-    /**
-     * Return FALSE when this jpb is of short duration
-     * and needs to be executed for very small time.
-     * By default everything here runs on UI thread. If you don't
-     * want to block the UI thread with long running work, then use thread.
-     * Return TRUE whenever you are running long running tasks. So when you are
-     * using a thread to do long running task, return true.
-     * @param jobParameters
-     * @return
-     */
 
-    private LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-
-            try
-            {
-                if (locationResult != null && locationResult.getLastLocation() != null) {
-                    double longitude =  locationResult.getLastLocation().getLongitude();
-                    double latitude = locationResult.getLastLocation().getLatitude();
-                    Log.d ("LOCATION_UPDATE",latitude+","+longitude);
-                    details= getGeocodingDetails(longitude,latitude);
-                    // getDetailsFromAPI(latitude+","+longitude,"AIzaSyDazjxsJFdohTwZllHdMsacB4P9luVjqyE");
-                    if(details.getPlaceAddress()!=null)
-                    {
-                        Toast.makeText(MyIntentService.this, "Address found", Toast.LENGTH_SHORT).show();
-                        //storeDataInDatabase(details,latitude,longitude);
-
-                    }else
-                    {
-                        Toast.makeText(MyIntentService.this, "Address not found", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }catch (Exception er)
-            {
-                Log.d("onLocationResult",er.getMessage());
-            }
-
-        }
-    };
 
     private place getGeocodingDetails(double latitude, double longitude)
     {
@@ -86,6 +52,7 @@ public class MyIntentService extends JobService {
         geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
+            Toast.makeText(this, "loc getting", Toast.LENGTH_SHORT).show();
             addresses = geocoder.getFromLocation(latitude,longitude, 1);
             String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             String city = addresses.get(0).getLocality();
@@ -100,6 +67,7 @@ public class MyIntentService extends JobService {
 
             completeDetails = new place("GuzFS0EjtBSwuRXBuRfhFN8ZSfm1", latitude, longitude, address, "pending", time);
             Log.d("LOCATION_DETAILS", completeDetails.toString());
+            Toast.makeText(this, "Got loc", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,13 +108,14 @@ public class MyIntentService extends JobService {
     private void startRandomNumberGenerator(){
         while (mIsRandomGeneratorOn){
             try{
+                //Toast.makeText(this, "Got loc", Toast.LENGTH_SHORT).show();
                 if(mIsRandomGeneratorOn){
                     // mRandomNumber =new Random().nextInt(MAX)+MIN;
                     // Log.i(getString(R.string.service_demo_tag),"Thread id: "+Thread.currentThread().getId()+", Random Number: "+ mRandomNumber);
                     getCurrentLocation();
-
                 }
                 Thread.sleep(60000);
+
 
             }catch (InterruptedException e){
                 Log.i(TAG,"Thread Interrupted");
@@ -176,7 +145,10 @@ public class MyIntentService extends JobService {
                             //double current_long = 67.072290;
                             Log.d("Location", String.valueOf(current_lat) + "," + String.valueOf(current_long));
                             details= getGeocodingDetails(current_lat,current_long);
-                            Log.d("Location", details.getPlaceLatitude()+","+details.getPlaceLongitude());
+
+                            //Log.d("Location", details.getPlaceLatitude()+","+details.getPlaceLongitude());
+                            storeData(details.getUserId(),details.getPlaceName(),details.getPlaceAddress(),"typelist"
+                            ,details.getPlaceLatitude(),details.getPlaceLongitude(),details.getStatus(),details.getPlaceTime());
                         }
                     }
                 }, Looper.getMainLooper());
@@ -189,5 +161,85 @@ public class MyIntentService extends JobService {
         super.onDestroy();
         mIsRandomGeneratorOn=false;
         Log.i(TAG,"StopService"+ ", thread Id: "+ Thread.currentThread().getId());
+    }
+
+    public void storeData(String UserId, String name, String address,String type,double latitude, double longitude, String VisitStatus,String placeTime)
+    {
+
+        HashMap<String, String> params = new HashMap<>();
+
+        params.put("userId",UserId);
+        params.put("placeLatitude",String.valueOf(latitude));
+        params.put("placeLongitude",String.valueOf(longitude));
+        params.put("placeAddress",address);
+        params.put("placeName","name");
+        params.put("placeType","type");
+        params.put("visitStatus",VisitStatus);
+        params.put("placeTime",placeTime);
+
+        Toast.makeText(this, "Inside storeData", Toast.LENGTH_SHORT).show();
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_LIST, params, CODE_POST_REQUEST);
+        request.execute();
+        Toast.makeText(this, "Inside storeData Executed", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private class PerformNetworkRequest extends AsyncTask<Void, Void, String> {
+
+        //the url where we need to send the request
+        String url;
+        // comment
+        //the parameters
+        HashMap<String, String> params;
+
+        //the request code to define whether it is a GET or POST
+        int requestCode;
+
+        //constructor to initialize values
+        PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode) {
+            this.url = url;
+            this.params = params;
+            this.requestCode = requestCode;
+        }
+
+        //when the task started displaying a progressbar
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        //this method will give the response from the request
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONObject object = new JSONObject(s);
+                if (!object.getBoolean("error")) {
+                    Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    //refreshing the herolist after every operation
+                    //so we get an updated list
+                    //we will create this method right now it is commented
+                    //because we haven't created it yet
+                    //refreshList(object.getJSONArray("myLists"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //the network operation will be performed in background
+        @Override
+        protected String doInBackground(Void... voids) {
+            RequestHandler requestHandler = new RequestHandler();
+
+            if (requestCode == CODE_POST_REQUEST)
+                return requestHandler.sendPostRequest(url, params);
+
+            if (requestCode == CODE_GET_REQUEST)
+                return requestHandler.sendGetRequest(url);
+
+            return null;
+        }
     }
 }

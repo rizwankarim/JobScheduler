@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.masterandroid.backgroundservice.adapter.nearbyAdapter;
-import com.masterandroid.backgroundservice.nearbyResponse.Example;
-import com.masterandroid.backgroundservice.retrofit.ApiClient;
-import com.masterandroid.backgroundservice.retrofit.ApiInterface;
+import com.example.jobscheduler.adapter.nearbyAdapter;
+import com.example.jobscheduler.nearbyResponse.Example;
+import com.example.jobscheduler.retrofit.ApiClient;
+import com.example.jobscheduler.retrofit.ApiInterface;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class showPlaceNearby extends AppCompatActivity {
     RecyclerView nearbyRecycler;
     Button done_history;
-    List<com.masterandroid.backgroundservice.nearbyPlace> nearbyPlaceList;
+    List<nearbyPlace> nearbyPlaceList;
     ApiClient retrofit;
     String place_addr;
     int placeId;
@@ -59,10 +59,10 @@ public class showPlaceNearby extends AppCompatActivity {
         done_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(com.masterandroid.backgroundservice.showPlaceNearby.this, Integer.toString(placeId), Toast.LENGTH_SHORT).show();
-                PerformNetworkRequest request = new PerformNetworkRequest(com.masterandroid.backgroundservice.Api.URL_DELETE_LIST + placeId, null, CODE_GET_REQUEST);
+                Toast.makeText(showPlaceNearby.this, Integer.toString(placeId), Toast.LENGTH_SHORT).show();
+                PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_DELETE_LIST + placeId, null, CODE_GET_REQUEST);
                 request.execute();
-                Intent goBack=new Intent(com.masterandroid.backgroundservice.showPlaceNearby.this,ViewHistoryRecycler.class);
+                Intent goBack=new Intent(showPlaceNearby.this,ViewHistoryRecycler.class);
                 finish();
                 startActivity(goBack);
             }
@@ -84,9 +84,9 @@ public class showPlaceNearby extends AppCompatActivity {
                             Double lat = response.body().getResults().get(i).getGeometry().getLocation().getLat();
                             Double lng = response.body().getResults().get(i).getGeometry().getLocation().getLng();
                             List<String> placeType=response.body().getResults().get(i).getTypes();
-                            com.masterandroid.backgroundservice.nearbyPlace nearby=new com.masterandroid.backgroundservice.nearbyPlace(placeName,lat,lng,placeType,place_addr);
+                            nearbyPlace nearby=new nearbyPlace(placeName,lat,lng,placeType,place_addr);
                             nearbyPlaceList.add(nearby);
-                            nearbyAdapter adapter=new nearbyAdapter(nearbyPlaceList, com.masterandroid.backgroundservice.showPlaceNearby.this);
+                            nearbyAdapter adapter=new nearbyAdapter(nearbyPlaceList, showPlaceNearby.this);
                             nearbyRecycler.setAdapter(adapter);
                         }
 
@@ -143,7 +143,7 @@ public class showPlaceNearby extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
-                    Toast.makeText(com.masterandroid.backgroundservice.showPlaceNearby.this, object.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(showPlaceNearby.this, object.getString("message"), Toast.LENGTH_SHORT).show();
                     //refreshing the herolist after every operation
                     //so we get an updated list
                     //we will create this method right now it is commented
@@ -158,7 +158,7 @@ public class showPlaceNearby extends AppCompatActivity {
         //the network operation will be performed in background
         @Override
         protected String doInBackground(Void... voids) {
-            com.masterandroid.backgroundservice.RequestHandler requestHandler = new com.masterandroid.backgroundservice.RequestHandler();
+            RequestHandler requestHandler = new RequestHandler();
 
             if (requestCode == CODE_POST_REQUEST)
                 return requestHandler.sendPostRequest(url, params);

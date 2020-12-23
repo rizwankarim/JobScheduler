@@ -64,22 +64,22 @@ public class login extends AppCompatActivity {
                     return;
                 }
                 else {
-                    progressDialog = ProgressDialog.show(com.masterandroid.backgroundservice.login.this
+                    progressDialog = ProgressDialog.show(login.this
                             , "", "Please Wait...", true);
                     mAuth.signInWithEmailAndPassword(user_email, user_password)
-                            .addOnCompleteListener(com.masterandroid.backgroundservice.login.this, new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful())
                                     {
-                                        Toast.makeText(com.masterandroid.backgroundservice.login.this, "Authentication Success.",Toast.LENGTH_SHORT).show();
-                                        Intent main=new Intent(com.masterandroid.backgroundservice.login.this,MainActivity.class);
+                                        Toast.makeText(login.this, "Authentication Success.",Toast.LENGTH_SHORT).show();
+                                        Intent main=new Intent(login.this,MainActivity.class);
                                         finish();
                                         startActivity(main);
 
                                     } else {
                                         // If sign in fails, display a message to the user.
-                                        Toast.makeText(com.masterandroid.backgroundservice.login.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(login.this, "Authentication failed.",Toast.LENGTH_SHORT).show();
                                     }
 
 
@@ -91,7 +91,7 @@ public class login extends AppCompatActivity {
         gotoSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signUp=new Intent(com.masterandroid.backgroundservice.login.this,createAccount.class);
+                Intent signUp=new Intent(login.this,createAccount.class);
                 finish();
                 startActivity(signUp);
             }

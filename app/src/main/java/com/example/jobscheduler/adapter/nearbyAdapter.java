@@ -12,10 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.masterandroid.backgroundservice.Api;
-import com.masterandroid.backgroundservice.R;
-import com.masterandroid.backgroundservice.RequestHandler;
-import com.masterandroid.backgroundservice.nearbyPlace;
+import com.example.jobscheduler.Api;
+import com.example.jobscheduler.R;
+import com.example.jobscheduler.RequestHandler;
+import com.example.jobscheduler.nearbyPlace;
 
 import org.json.JSONException;
 import org.json.JSONObject;

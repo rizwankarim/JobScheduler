@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.masterandroid.backgroundservice.adapter.VisitedAdapter;
+
+import com.example.jobscheduler.adapter.VisitedAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +47,7 @@ public class VisitedPlaces extends AppCompatActivity {
         });
     }
     private void readHistory(String userId) {
-        PerformNetworkRequest request = new PerformNetworkRequest(com.masterandroid.backgroundservice.Api.URL_READ_YES_LIST+userId, null, CODE_GET_REQUEST);
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_READ_YES_LIST+userId, null, CODE_GET_REQUEST);
         request.execute();
     }
     private void refreshHistoryList(JSONArray heroes) throws JSONException {
@@ -80,7 +81,7 @@ public class VisitedPlaces extends AppCompatActivity {
 
         }
         Log.d("List Size ",Integer.toString(historyList.size()));
-        VisitedAdapter adapter = new VisitedAdapter(historyList, com.masterandroid.backgroundservice.VisitedPlaces.this);
+        VisitedAdapter adapter = new VisitedAdapter(historyList, VisitedPlaces.this);
         visitedRecycler.setAdapter(adapter);
 
     }
@@ -129,7 +130,7 @@ public class VisitedPlaces extends AppCompatActivity {
         //the network operation will be performed in background
         @Override
         protected String doInBackground(Void... voids) {
-            com.masterandroid.backgroundservice.RequestHandler requestHandler = new com.masterandroid.backgroundservice.RequestHandler();
+            RequestHandler requestHandler = new RequestHandler();
 
             if (requestCode == CODE_POST_REQUEST)
                 return requestHandler.sendPostRequest(url, params);

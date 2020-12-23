@@ -6,6 +6,7 @@ import android.app.job.JobService;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Looper;
@@ -20,12 +21,16 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,6 +40,8 @@ import java.util.Locale;
 public class ExampleJobService extends JobService {
     Geocoder geocoder;
     place completeDetails=null;
+    private static final int CODE_GET_REQUEST = 1024;
+    private static final int CODE_POST_REQUEST = 1025;
 
     @Override
     public boolean onStartJob(JobParameters params) {
@@ -72,4 +79,5 @@ public class ExampleJobService extends JobService {
         }
         return completeDetails;
     }
+
 }

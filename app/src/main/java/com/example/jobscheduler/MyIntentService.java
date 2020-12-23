@@ -174,6 +174,8 @@ public class MyIntentService extends JobService {
                             //double current_lat = 24.863473;
                             //double current_long = 67.072290;
                             Log.d("Location", String.valueOf(current_lat) + "," + String.valueOf(current_long));
+                            details= getGeocodingDetails(current_lat,current_long);
+                            Log.d("Location", details.getPlaceLatitude()+","+details.getPlaceLongitude());
                         }
                     }
                 }, Looper.getMainLooper());

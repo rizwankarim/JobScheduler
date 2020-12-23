@@ -2,6 +2,8 @@ package com.example.jobscheduler;
 
 //import com.google.gson.annotations.SerializedName;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 public class place {
@@ -14,19 +16,19 @@ public class place {
 
     private double placeLongitude;
 
-    //@SerializedName("formatted_address")
+    @SerializedName("formatted_address")
     private String placeAddress;
 
-    //@SerializedName("name")
+    @SerializedName("name")
     private String placeName;
 
-    //@SerializedName("types")
+    @SerializedName("types")
     private ArrayList<String> placeType;
 
-    //@SerializedName("visitStatus")
+    @SerializedName("visitStatus")
     private String status;
 
-    //@SerializedName("placeTime")
+    @SerializedName("placeTime")
     private String placeTime;
 
     public place(int placeId, String userId, double placeLatitude, double placeLongitude, String placeAddress, String placeName,

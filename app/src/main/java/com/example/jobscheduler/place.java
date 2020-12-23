@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class place {
 
-
     private int placeId;
 
     private String userId;

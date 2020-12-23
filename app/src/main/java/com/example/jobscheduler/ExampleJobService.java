@@ -48,6 +48,7 @@ public class ExampleJobService extends JobService {
 
     private place getGeocodingDetails(double Longitude, double Latitude){
         List<Address> addresses= new ArrayList<>();
+        //fjf
         geocoder=new Geocoder(this, Locale.getDefault());
 
         try {

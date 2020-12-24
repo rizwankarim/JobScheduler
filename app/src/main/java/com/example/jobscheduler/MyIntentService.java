@@ -102,7 +102,7 @@ public class MyIntentService extends JobService {
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         Log.i(TAG,"onStopJob");
-        return false;
+        return true;
     }
 
     private void startRandomNumberGenerator(){
@@ -115,7 +115,6 @@ public class MyIntentService extends JobService {
                     getCurrentLocation();
                 }
                 Thread.sleep(60000);
-
 
             }catch (InterruptedException e){
                 Log.i(TAG,"Thread Interrupted");
